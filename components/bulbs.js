@@ -7,10 +7,10 @@ const Bulbs = ({correct}) =>{
     if(correct == 0){
         bulbs = [require('../assets/images/unlit_bulb.png'), require('../assets/images/unlit_bulb.png'), require('../assets/images/unlit_bulb.png')]
     }
-    else if(correct>0 && correct<4){
+    else if(correct>0 && correct<5){
         bulbs = [require('../assets/images/lit_bulb.png'), require('../assets/images/unlit_bulb.png'), require('../assets/images/unlit_bulb.png')]
     }
-    else if(correct>3 && correct<8){
+    else if(correct>4 && correct<8){
         bulbs = [require('../assets/images/lit_bulb.png'), require('../assets/images/lit_bulb.png'), require('../assets/images/unlit_bulb.png')]
     }
     else{
