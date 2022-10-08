@@ -8,11 +8,11 @@ The progress bar is composed of 10 circles, one for each question, conjoined by 
   </p>
   
 <h2>Final Screen<h2>
-A 3 light bulb system is used to indicate to the player how well they performed in the trivia:
-* If 0 questions were guessed correctly, 3 unlit light bulbs are presented
-* If 1-4 questions were guessed correctly, a lit & 2 unlit light bulbs are presented
-* If 5-7 questions were guessed correctly, 2 lit & an unlit light bulbs are presented
-* If 8-10 questions were guessed correctly, 3 lit light bulbs are presented
+A 3 light bulb system is used to indicate to the player how well they performed in the trivia:<br/>
+- If 0 questions were guessed correctly, 3 unlit light bulbs are presented</br>
+- If 1-4 questions were guessed correctly, a lit & 2 unlit light bulbs are presented<br/>
+- If 5-7 questions were guessed correctly, 2 lit & an unlit light bulbs are presented<br/>
+- If 8-10 questions were guessed correctly, 3 lit light bulbs are presented
   <br/><br/><br/>
   <p align="center">
   </p>
