@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Image, TouchableOpacity, Text, FlatList} from 'react-native';
-import axios from 'axios';
+import axios from 'axios'
+import Sound from 'react-native-sound';  
 import {shuffleAnswers} from '../utilities/functions'
 import Bulbs from '../components/bulbs'
 import ProgressBar from '../components/progress'
 import {questions} from '../sampleData'
-import Sound from 'react-native-sound';  
+
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); 
 LogBox.ignoreAllLogs();
@@ -30,12 +31,21 @@ var wrong = new Sound('incorrect.mp3', Sound.MAIN_BUNDLE, error => {
   
 
  const Game = ({navigation}) => {
-    const [allQuestions, setQuestions] = useState(questions)
-    const [current, setIndex] = useState(0)
-    const [correct, setCorrect] = useState([])
-    const [finished, setFinished] = useState(false)
+    const [allQuestions, setQuestions] = useState(questions);
+    const [current, setIndex] = useState(0);
+    const [correct, setCorrect] = useState([]);
+    const [finished, setFinished] = useState(false);
 
-
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get("https://the-trivia-api.com/api/questions?categories=sport_and_leisure&limit=10&region=IT");
+              if(response.data){
+                setQuestions(response.data)
+              }
+          }
+          fetchData()
+    }, [])
+    
     const checkAnswers = (answer) => {
         if(answer == allQuestions[current].correctAnswer){
             setCorrect(prev => [...prev, true])
