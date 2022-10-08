@@ -18,7 +18,7 @@ const ProgressBar = ({current, correct}) =>{
         <View style={styles.progressBar}>
             <View style={[styles.circle, {backgroundColor: current > 0 ? '#2E2F5B': '#FFFFFF'}]}>
             {current.length = 1?(
-                <Image style={styles.icon} source={require('../assets/images/check.png')}/>
+                <Icon correct={correct[0]}/>
             ): null}
             </View>
             <View style={[styles.line, {backgroundColor: current > 0 ? '#2E2F5B': '#FFFFFF'}]}></View>

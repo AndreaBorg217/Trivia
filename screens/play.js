@@ -31,22 +31,22 @@ var wrong = new Sound('incorrect.mp3', Sound.MAIN_BUNDLE, error => {
   
 
  const Game = ({navigation}) => {
-    const [allQuestions, setQuestions] = useState(questions);
+    const [allQuestions, setQuestions] = useState();
     const [current, setIndex] = useState(0);
     const [correct, setCorrect] = useState([]);
     const [finished, setFinished] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get("https://the-trivia-api.com/api/questions?categories=sport_and_leisure&limit=10&region=IT");
-              if(response.data){
-                setQuestions(response.data)
-              }
-          }
-          fetchData()
+        fetchData()
     }, [])
+
+    const fetchData = async () => {
+        const response = await axios.get("https://the-trivia-api.com/api/questions?categories=sport_and_leisure&limit=10&region=IT");
+        setQuestions(response.data)
+    }
     
     const checkAnswers = (answer) => {
+        console.log(answer, allQuestions[current].correctAnswer)
         if(answer == allQuestions[current].correctAnswer){
             setCorrect(prev => [...prev, true])
             guessed.play();
@@ -71,47 +71,48 @@ var wrong = new Sound('incorrect.mp3', Sound.MAIN_BUNDLE, error => {
             </TouchableOpacity>
         )
     }  
-
+    if(allQuestions){
      return(
-     <View style = {styles.container}>
-        <Image style={styles.logo} source={require('../assets/images/unlit_bulb.png')}/>
+        <View style = {styles.container}>
+            <Image style={styles.logo} source={require('../assets/images/unlit_bulb.png')}/>
 
-        <View style={styles.questionBox}>
-            <Text style={styles.question}>{allQuestions[current]?.question}</Text>
-        </View>
-
-        <FlatList
-            style={styles.choices}
-            data={shuffleAnswers([allQuestions[current]?.correctAnswer, ...allQuestions[current]?.incorrectAnswers])} 
-            renderItem={({item, index}) => <Choice choice={item} index={index}/>}
-            keyExtractor={(item, index) => index}
-            numColumns = {2}
-        />
-      
-      <ProgressBar current={current} correct={correct}/>
-
-       {finished?(
-        <View style={styles.final}>
-            <View style={styles.messageCont}>
-                <Text style={styles.message}>You guessed {correct.filter(value => value === true).length}/10</Text>
-                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: -2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text> 
-                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: 2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text>
-                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: 2, height: -2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text> 
+            <View style={styles.questionBox}>
+                <Text style={styles.question}>{allQuestions[current]?.question}</Text>
             </View>
-            <Bulbs correct = {correct.filter(value => value === true).length}/>
-            <View style={styles.btnCont}>
-                <TouchableOpacity style={styles.button} onPress={() => {setFinished(false); setCorrect([]); setIndex(0)}}>
-                    <Text style={styles.btnText}>Play Again</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
-                    <Text style={styles.btnText}>Quit</Text>
-                </TouchableOpacity>
+
+            <FlatList
+                style={styles.choices}
+                data={shuffleAnswers([allQuestions[current]?.correctAnswer, ...allQuestions[current]?.incorrectAnswers])} 
+                renderItem={({item, index}) => <Choice choice={item} index={index}/>}
+                keyExtractor={(item, index) => index}
+                numColumns = {2}
+            />
+        
+        <ProgressBar current={current} correct={correct}/>
+
+        {finished?(
+            <View style={styles.final}>
+                <View style={styles.messageCont}>
+                    <Text style={styles.message}>You guessed {correct.filter(value => value === true).length}/10</Text>
+                    <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: -2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text> 
+                    <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: 2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text>
+                    <Text style={[styles.message, styles.abs, {textShadowOffset: {width: 2, height: -2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text> 
+                </View>
+                <Bulbs correct = {correct.filter(value => value === true).length}/>
+                <View style={styles.btnCont}>
+                    <TouchableOpacity style={styles.button} onPress={() => {setFinished(false); setCorrect([]); setIndex(0); fetchData()}}>
+                        <Text style={styles.btnText}>Play Again</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
+                        <Text style={styles.btnText}>Quit</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+            ):null      
+        }
         </View>
-        ):null      
-       }
-     </View>
-   );
+        );
+    }
   };
  
  const styles = StyleSheet.create({
