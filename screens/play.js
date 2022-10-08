@@ -6,10 +6,28 @@ import {shuffleAnswers} from '../utilities/functions'
 import Bulbs from '../components/bulbs'
 import ProgressBar from '../components/progress'
 import {questions} from '../sampleData'
-
+import Sound from 'react-native-sound';  
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); 
 LogBox.ignoreAllLogs();
+
+var guessed = new Sound('correct.mp3', Sound.MAIN_BUNDLE, error => {
+    if (error) {
+      console.log('Failed to load correct', error);
+      return;
+    }
+    console.log('Success');
+  });
+
+
+var wrong = new Sound('incorrect.mp3', Sound.MAIN_BUNDLE, error => {
+    if (error) {
+      console.log('Failed to load incorrect', error);
+      return;
+    }
+    console.log('Success');
+  });
+  
 
  const Game = ({navigation}) => {
     const [allQuestions, setQuestions] = useState(questions)
@@ -21,9 +39,11 @@ LogBox.ignoreAllLogs();
     const checkAnswers = (answer) => {
         if(answer == allQuestions[current].correctAnswer){
             setCorrect(prev => [...prev, true])
+            guessed.play();
         }
         else{
             setCorrect(prev => [...prev, false])
+            wrong.play()
         }
        
         if(current > 8){
