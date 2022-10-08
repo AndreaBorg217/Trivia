@@ -26,6 +26,8 @@ LogBox.ignoreAllLogs();
        
         if(current == 9){
             setFinished(true)
+            setCorrect(0)
+            setIndex(0)
         }
         else{
             setIndex(prev => prev + 1);
@@ -66,7 +68,7 @@ LogBox.ignoreAllLogs();
             </View>
             <Bulbs correct = {correct}/>
             <View style={styles.btnCont}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => setFinished(false)}>
                     <Text style={styles.btnText}>Play Again</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
