@@ -1,5 +1,5 @@
 # Trivia
-<h3>An app which obtains 10 multiple choice questions from an API & sequentially presents them to thw player.<h3>
+<h3>An app which obtains 10 multiple choice questions from an API & sequentially presents them to the player.<h3>
 
 <h2>Progress Bar<h2>
 The progress bar is composed of 10 circles, one for each question, conjoined by a line.  When a question is submitted, the circle & next line turn from white to purple & a check/cross icon is inserted if the question is answered correctly or incorrectly respectively.
