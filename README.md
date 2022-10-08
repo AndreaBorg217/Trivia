@@ -21,9 +21,9 @@ A 3 light bulb system is used to indicate to the player how well they performed 
 - If 8-10 questions were guessed correctly, 3 lit light bulbs are presented
   <br/><br/><br/>
 <p align="center">
-    <img src="Screenshots\Screenshot_1665257072.png" width="350" >
     <img src="Screenshots\Screenshot_1665257080.png" width="350" >
-    <img src="Screenshots\Screenshot_1665257103.png" width="350" >
+    <img src="Screenshots\Screenshot_1665257072.png" width="350" >
+    <img src="Screenshots\Screenshot_1665257777.png" width="350" >
 </p>  
     
 <h6>All icons have been obtained from FlatIcon.<h6>
