@@ -28,11 +28,11 @@ const Bulbs = ({correct}) =>{
 const styles = StyleSheet.create({
     bulbsCont:{
      flexDirection: 'row',
-     transform: [{translateY: -150}],
+     transform: [{translateY: -90}],
     },
     bulb:{
      width: 110,
-     height: 110,
+     height: 10,
      marginLeft: 10
     },
    });

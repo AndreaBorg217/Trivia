@@ -4,7 +4,9 @@ import {View, StyleSheet, Image, TouchableOpacity, Text, FlatList} from 'react-n
 import axios from 'axios';
 import {shuffleAnswers} from '../utilities/functions'
 import Bulbs from '../components/bulbs'
+import ProgressBar from '../components/progress'
 import {questions} from '../sampleData'
+
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); 
 LogBox.ignoreAllLogs();
@@ -12,22 +14,20 @@ LogBox.ignoreAllLogs();
  const Game = ({navigation}) => {
     const [allQuestions, setQuestions] = useState(questions)
     const [current, setIndex] = useState(0)
-    const [correct, setCorrect] = useState(0)
+    const [correct, setCorrect] = useState([])
     const [finished, setFinished] = useState(false)
 
+
     const checkAnswers = (answer) => {
-        console.log(answer, allQuestions[current].correctAnswer)
         if(answer == allQuestions[current].correctAnswer){
-            setCorrect(prev => prev + 1)
+            setCorrect(prev => [...prev, true])
         }
         else{
-            console.log('incorrectAnswer')
+            setCorrect(prev => [...prev, false])
         }
        
-        if(current == 9){
+        if(current > 8){
             setFinished(true)
-            setCorrect(0)
-            setIndex(0)
         }
         else{
             setIndex(prev => prev + 1);
@@ -57,18 +57,20 @@ LogBox.ignoreAllLogs();
             keyExtractor={(item, index) => index}
             numColumns = {2}
         />
-       
+      
+      <ProgressBar current={current} correct={correct}/>
+
        {finished?(
         <View style={styles.final}>
             <View style={styles.messageCont}>
-                <Text style={styles.message}>You guessed {correct}/10</Text>
-                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: -2}}]}>You guessed {correct}/10</Text> 
-                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: 2}}]}>You guessed {correct}/10</Text>
-                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: 2, height: -2}}]}>You guessed {correct}/10</Text> 
+                <Text style={styles.message}>You guessed {correct.filter(value => value === true).length}/10</Text>
+                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: -2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text> 
+                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: 2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text>
+                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: 2, height: -2}}]}>You guessed {correct.filter(value => value === true).length}/10</Text> 
             </View>
-            <Bulbs correct = {correct}/>
+            <Bulbs correct = {correct.filter(value => value === true).length}/>
             <View style={styles.btnCont}>
-                <TouchableOpacity style={styles.button} onPress={() => setFinished(false)}>
+                <TouchableOpacity style={styles.button} onPress={() => {setFinished(false); setCorrect([]); setIndex(0)}}>
                     <Text style={styles.btnText}>Play Again</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
@@ -116,7 +118,7 @@ LogBox.ignoreAllLogs();
     fontSize: 25,
    },
    choices:{
-    transform: [{translateY: 390}]
+    transform: [{translateY: 380}]
    },
    choice:{
     width: 170,
@@ -177,7 +179,7 @@ LogBox.ignoreAllLogs();
     color: '#FFFFFF',
     fontFamily: 'BubblegumSans-Regular',
     fontSize: 30,
-   }
+   },
   });
  
  export default Game;
