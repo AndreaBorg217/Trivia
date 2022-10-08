@@ -43,7 +43,9 @@ import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
     justifyContent: 'center',
     borderRadius: 40,
     position: 'absolute',
-    transform: [{translateY: 250}]
+    transform: [{translateY: 250}],
+    borderColor: '#000000',
+    borderWidth: 2,
    },
    playText:{
     color: '#FFFFFF',
