@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Image, TouchableOpacity, Text, FlatList} from 'react-native';
 import axios from 'axios';
 import {shuffleAnswers} from '../utilities/functions'
+import Bulbs from '../components/bulbs'
 import {questions} from '../sampleData'
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); 
@@ -11,18 +12,20 @@ LogBox.ignoreAllLogs();
  const Game = ({navigation}) => {
     const [allQuestions, setQuestions] = useState(questions)
     const [current, setIndex] = useState(0)
+    const [correct, setCorrect] = useState(0)
+    const [finished, setFinished] = useState(false)
 
     const checkAnswers = (answer) => {
         console.log(answer, allQuestions[current].correctAnswer)
         if(answer == allQuestions[current].correctAnswer){
-            console.log('correctAnswer')
+            setCorrect(prev => prev + 1)
         }
         else{
             console.log('incorrectAnswer')
         }
        
         if(current == 9){
-            //show final screen
+            setFinished(true)
         }
         else{
             setIndex(prev => prev + 1);
@@ -53,6 +56,26 @@ LogBox.ignoreAllLogs();
             numColumns = {2}
         />
        
+       {finished?(
+        <View style={styles.final}>
+            <View style={styles.messageCont}>
+                <Text style={styles.message}>You guessed {correct}/10</Text>
+                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: -2}}]}>You guessed {correct}/10</Text> 
+                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: -2, height: 2}}]}>You guessed {correct}/10</Text>
+                <Text style={[styles.message, styles.abs, {textShadowOffset: {width: 2, height: -2}}]}>You guessed {correct}/10</Text> 
+            </View>
+            <Bulbs correct = {correct}/>
+            <View style={styles.btnCont}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.btnText}>Play Again</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
+                    <Text style={styles.btnText}>Quit</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+        ):null      
+       }
      </View>
    );
   };
@@ -108,6 +131,50 @@ LogBox.ignoreAllLogs();
     color: '#FFFFFF',
     fontFamily: 'BubblegumSans-Regular',
     fontSize: 20,
+   },
+   final:{
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F4D35E'
+   },
+   messageCont:{
+    transform: [{translateY: -200}],
+    height: 100
+   },
+   message:{
+    color: '#FFFFFF',
+    fontFamily: 'BubblegumSans-Regular',
+    fontSize: 50,
+    textShadowColor: 'black', textShadowRadius: 1, textShadowOffset: {width: 2, height: 2}
+    }, 
+   abs: {
+    position: 'absolute',
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    bottom: 0
+   },
+   btnCont:{
+    position: 'absolute',
+    transform: [{translateY: 150}],
+   },
+   button:{
+    backgroundColor: '#2E2F5B',
+    width: 180,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 40,
+    borderColor: '#000000',
+    borderWidth: 2,
+    margin: 15,
+   },
+   btnText:{
+    color: '#FFFFFF',
+    fontFamily: 'BubblegumSans-Regular',
+    fontSize: 30,
    }
   });
  
